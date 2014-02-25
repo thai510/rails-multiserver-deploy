@@ -1,0 +1,3 @@
+check process unicorn-YOURAPPNAME with pidfile /home/deployer/apps/YOURAPPNAME/current/tmp/pids/unicorn.pid 
+  start program = "/bin/bash -c '/etc/init.d/unicorn_YOURAPPNAME start'"
+  stop program = "/bin/bash -c '/etc/init.d/unicorn_YOURAPPNAME stop'"

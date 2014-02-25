@@ -1,0 +1,83 @@
+YOURAPP::Application.configure do
+# Settings specified here will take precedence over those in config/application.rb
+
+  # Code is not reloaded between requests
+  config.cache_classes = true
+
+  # Full error reports are disabled and caching is turned on
+  config.consider_all_requests_local       = true
+  config.action_controller.perform_caching = true
+
+  # Disable Rails's static asset server (Apache or nginx will already do this)
+  config.serve_static_assets = false
+
+  # Compress JavaScripts and CSS
+  config.assets.compress = true
+  config.assets.js_compressor = :uglifier
+
+  # Don't fallback to assets pipeline if a precompiled asset is missed
+  config.assets.compile = false 
+
+  # Generate digests for assets URLs
+  config.assets.digest = true
+
+  config.assets.initialize_on_startup = false
+
+
+  # Defaults to Rails.root.join("public/assets")
+  #config.assets.manifest = Rails.root.join("../shared/assets")
+
+  # Specifies the header that your server uses for sending files
+  # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
+  # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
+
+  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
+  config.force_ssl = true
+
+  # See everything in the log (default is :info)
+  # config.log_level = :debug
+
+  # Use a different logger for distributed setups
+  # config.logger = SyslogLogger.new
+
+  # Use a different cache store in production
+  # config.cache_store = :mem_cache_store
+
+  # Enable serving of images, stylesheets, and JavaScripts from an asset server
+  # config.action_controller.asset_host = "http://assets.example.com"
+
+  # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
+  #config.assets.precompile += %w( flow.css home.css post.css user.css flow.js dashboard.js 
+  #                                home.js loadScrollbar.js loadShit.js post.js user.js )
+  config.assets.precompile << Proc.new do |path|
+    if path =~ /\.(css|js|png|jpg|gif|svg|eot|woff|ttf|css\.scss|pdf)\z/
+      full_path = Rails.application.assets.resolve(path).to_path
+      app_assets_path = Rails.root.join('app', 'assets').to_path
+      if full_path.starts_with? app_assets_path
+        puts "including asset: " + full_path
+        true
+      else
+        puts "excluding asset: " + full_path
+        false
+      end
+    else
+      false
+    end
+  end
+
+  # Disable delivery errors, bad email addresses will be ignored
+  # config.action_mailer.raise_delivery_errors = false
+
+  # Enable threaded mode
+  # config.threadsafe!
+  #config.assets.precompile += %w( jquery-1.7.js, bootstrap.js, bootstrap.css, bootstrap-responsive.css, jquery-1.7.min.js, application.css, *.css, *.js )
+  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
+  # the I18n.default_locale when a translation can not be found)
+  config.i18n.fallbacks = true
+
+  # Send deprecation notices to registered listeners
+  config.active_support.deprecation = :notify
+  # Log the query plan for queries taking more than this (works
+  # with SQLite, MySQL, and PostgreSQL)
+  # config.active_record.auto_explain_threshold_in_seconds = 0.5
+end
